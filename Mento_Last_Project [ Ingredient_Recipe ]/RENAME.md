@@ -24,7 +24,9 @@
 ## 💻 프로젝트 진행 (이미지 인식 and 데이터 분석)
 
 I. 이미지 인식  
-
+> 1. 데이터 수집
+> https://kadx.co.kr/product/detail/0c5ec800-4fc2-11eb-8b6e-e776ccea3964
+> KADX 농식품 빅데이터 거래소에 있는 만개의 레시피 데이터를 활용
 
 
 
