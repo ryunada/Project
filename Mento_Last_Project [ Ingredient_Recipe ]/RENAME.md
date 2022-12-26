@@ -43,7 +43,21 @@ I. 이미지 인식
 
 I. 재료에 해당하는 이미지를 
 
+```
+# ...
+# Epoch 146/300
+# 100/100 [==============================] - 6s 63ms/step - loss: 0.5831 - acc: 0.8233 - val_loss: 0.9350 - val_acc: 0.7207
+# Epoch 147/300
+# 100/100 [==============================] - 6s 62ms/step - loss: 0.5959 - acc: 0.8100 - val_loss: 0.9028 - val_acc: 0.7307
+# Epoch 148/300
+# 100/100 [==============================] - 6s 62ms/step - loss: 0.6300 - acc: 0.8053 - val_loss: 0.8664 - val_acc: 0.7260`
 
+# 모델 평가
+print("-- Evaluate --")
+scores = model.evaluate(test_generator)
+print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
+# acc: 73.29%
+```
 
 II. 데이터 분석  
 
