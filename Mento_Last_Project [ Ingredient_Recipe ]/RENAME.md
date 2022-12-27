@@ -310,3 +310,47 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > 
 >     return frame
 > ```
+> -> YOLOv4-tiny로 학습된 모델로 이미지를 인식하고 인식된 이미지와 인식된 재료의 결과를 출력
+> 
+> ```python
+> # lgbm_t.pkl 파일 불러오기
+> with open('학습된 lgbm pickle 파일', 'rb') as f:
+>     lgbm_t = pickle.load(f)
+> 
+> # print(lgbm_t)
+> 
+> # 임시로 넣은 조건
+> Gender = 1 # 남자
+> Age = 20 # 20대
+> Temperature = 20.0 # 온도
+> Precipitation = 0.0 # 강수량
+> Humidity = 0.0 # 습도
+> Cloud = 0.0 # 구름
+> Month = 12 # 12월
+> Season = 4 # 겨울
+> Weekday = 5 # 토요일
+> 
+> # print(df2)
+>
+> model = lgbm_t
+> 
+> df2 = df2['CKG_NM']
+> df2 = df2.values.reshape(-1, 1)
+> # print(df2)
+> 
+> df3 = pd.DataFrame(columns=['RCP_NM', 'score'])
+> 
+> for i in range(len(df2)):
+>     input_data = [df2[i][0], Gender, Age, Temperature, Precipitation, Humidity, Cloud, Month, Season, Weekday]
+>     # print(input_data)
+>     # print(model.predict([input_data]))
+>     # df3에 df2의 CKG_NM과 model.predict([input_data])의 예측값을 전부 저장
+>     df3 = df3.append({'RCP_NM': df2[i][0], 'score': model.predict([input_data])}, ignore_index=True)
+> 
+> # df3의 RCP_NM이 df1의 CKG_NM2가 같으면 CKG_NM을 RCP_NM으로 저장
+> df3['RCP_NM'] = df3['RCP_NM'].map(df1.set_index('CKG_NM2')['CKG_NM'])
+> # df3의 score를 내림차순으로 정렬
+> df3 = df3.sort_values(by='score', ascending=False)
+> print(df3.head())
+> ```
+> > LightGBM으로 학습된 모델을 사용하여 인식된 재료와, 미리 입력된 성별, 날씨 계절 등 다양한 조건을 조합하여 최종적으로 검색량이 높은 레시피를 예측하여 추천
