@@ -143,6 +143,36 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 >
 >    return df
 > ```
+> > - 수집한 데이터를 Ensemble학습 중 LightGBM을 사용
+> >   
+> > LightGBM
+> > ```python  
+> > from lightgbm import LGBMRegressor
+> >  
+> > lgbm_t = LGBMRegressor(random_state=1, learning_rate=0.01, n_estimators=2000, colsample_bytree=0.9, subsample=0.7, max_depth=5)
+> >  
+> > lgbm_t.fit(x_train, y_train). 
+> > lgbm_t_pred = lgbm_t.predict(x_test)
+> > 
+> > print('LGBMRegressor')
+> > print('MAE:', mean_absolute_error(y_test, lgbm_t_pred)) # (평균 절대 오차) 예측값과 실제값의 차이의 절대값에 대한 평균
+> > print('MSE:', mean_squared_error(y_test, lgbm_t_pred)) # (평균 제곱 오차) 예측값과 실제값의 차이의 제곱에 대한 평균
+> > print('RMSE:', np.sqrt(mean_squared_error(y_test, lgbm_t_pred))) # (평균 제곱근 오차) 예측값과 실제값의 차이의 제곱에 대한 평균의 제곱근
+> > print('R2:', r2_score(y_test, lgbm_t_pred)) # (결정 계수) 1에 가까울수록 예측값과 실제값이 가깝다는 의미
+> >  
+> > # 예측값과 실제값 비교 csv 파일로 저장
+> > df2 = pd.DataFrame({'Actual': y_test, 'Predicted': lgbm_t_pred})
+> > df2.to_csv(os.path.join(path, 'result_lgb.csv'), index=True)
+> > 
+> > # 모델 저장
+> > import pickle
+> > 
+> > with open(os.path.join(path, 'lgbm_t.pkl'), 'wb') as f:
+> >     pickle.dump(lgbm_t, f)
+> >       
+> > # # 모델 불러오기
+> > # with open(os.path.join(path, 'lgbm_t.pkl'), 'rb') as f:
+> > #     lgbm_t = pickle.load(f)
 
 I. 재료에 해당하는 이미지를 
 
