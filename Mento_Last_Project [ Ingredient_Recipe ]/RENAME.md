@@ -110,7 +110,43 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 >  모든 데이터를 날짜별로 정리를 하여 하나의 데이터로 만들었습니다.  
 
 > III. 데이터 분석   
-> 
+> 날씨, 요일, 계절 등 정보와 사용자가 입력하는 재료, 나이, 성별에 따라 만들 수 있는 요리의 레시피 중, 검색량이 많을 것 같은 레시피를 예측하기 위한 모  델을 얻고자 하였습니다.  
+>   
+> - 데이터 분석을 할 때 메모리 사용량을 줄이기 위하여 DataFrame의 DataType을 바꾸어 주었습니다. 덕분에 메모리 error없이 학습 진행
+> ```python
+  def reduce_mem_usage(df):
+    """ iterate through all the columns of a dataframe and modify the data type
+        to reduce memory usage.
+    """
+    # start_mem = df.memory_usage().sum() / 1024**2
+    # print('Memory usage of dataframe is {:.2f} MB'.format(start_mem))
+
+    for col in df.columns:
+        col_type = df[col].dtype
+
+        if col_type != object:
+            c_min = df[col].min()
+            c_max = df[col].max()
+            if str(col_type)[:3] == 'int':
+                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
+                    df[col] = df[col].astype(np.int8)
+                elif c_min > np.iinfo(np.int16).min and c_max < np.iinfo(np.int16).max:
+                    df[col] = df[col].astype(np.int16)
+                elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
+                    df[col] = df[col].astype(np.int32)
+                elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
+                    df[col] = df[col].astype(np.int64)
+            else:
+                if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
+                    df[col] = df[col].astype(np.float16)
+                elif c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
+                    df[col] = df[col].astype(np.float32)
+                else:
+                    df[col] = df[col].astype(np.float64)
+
+    return df
+ ```
+
 I. 재료에 해당하는 이미지를 
 
 II. 데이터 분석  
