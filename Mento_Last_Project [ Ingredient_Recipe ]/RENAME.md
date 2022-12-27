@@ -39,19 +39,19 @@
 > II. 불필요한 배경이나 사물들이 포함된 이미지 육안으로 제거  
 > III. 이미지에 해당하는 라벨링 작업을 시행  
 > IV. Colab으로 이미지 인식 실행  
-
-<table>
-  <tr>
-    <td>
-      <img src = "https://user-images.githubusercontent.com/87309905/209649054-39b84715-78a5-439f-bf6a-ee46e850958b.png">  
-      epoch에 따른 train, val 데이터 셋의 accuracy
-    </td>
-    <td>
-      <img src = "https://user-images.githubusercontent.com/87309905/209649223-6a6aad8a-edf8-4833-9edb-95dc9326e3ad.png">
-      epoch에 따른 train, val 데이터셋의 loss
-    </td>
-  </tr>
-</table>
+> 
+> <table>
+>   <tr>
+>     <td>
+>       <img src = "https://user-images.githubusercontent.com/87309905/209649054-39b84715-78a5-439f-bf6a-ee46e850958b.png">  
+>       epoch에 따른 train, val 데이터 셋의 accuracy
+>     </td>
+>     <td>
+>       <img src = "https://user-images.githubusercontent.com/87309905/209649223-6a6aad8a-edf8-4833-9edb-95dc9326e3ad.png">
+>       epoch에 따른 train, val 데이터셋의 loss
+>     </td>
+>   </tr>
+> </table>
 
 
 ```
