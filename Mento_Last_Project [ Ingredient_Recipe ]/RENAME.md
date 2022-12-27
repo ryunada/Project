@@ -224,3 +224,89 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > > with open(os.path.join(path, 'lgbm_t.pkl'), 'wb') as f:
 > >    pickle.dump(lgbm_t.fit(x_train, y_train), f)
 > > ```
+
+> 이미지 인식 모델과 분석 모델을 활용한 레시피 추천  
+>  
+> - 재료 이미지를 인식하여 재료를 파별하여 만들 수 있는 레시피 먼저 제공  
+> - 제공된 레시피 중 성별, 나이, 날씨 등 다양한 조건을 조합여 최종적으로 검색량이 가장 높은, 즉, 사람들이 가장 즐겨 먹는 레시피를 학습 모델을 통하여 알려줍니다.  
+> ```python
+> def yolo(frame, size, score_threshold, nms_threshold):
+>     """YOLO 시작"""
+>     # YOLO 네트워크 불러오기
+>     net = cv2.dnn.readNet("weights 파일 경로",
+>                           "cfg 파일 경로")
+>     layer_names = net.getLayerNames()
+>     output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
+> 
+>     # 클래스의 갯수만큼 랜덤 RGB 배열을 생성
+>     colors = np.random.uniform(0, 255, size=(len(classes), 3))
+>
+>     # 이미지의 높이, 너비, 채널 받아오기
+>     height, width, channels = frame.shape
+> 
+>     # 네트워크에 넣기 위한 전처리
+>     blob = cv2.dnn.blobFromImage(frame, 0.00392, (size, size), (0, 0, 0), True, crop=False)
+> 
+>     # 전처리된 blob 네트워크에 입력
+>     net.setInput(blob)
+> 
+>     # 결과 받아오기
+>     outs = net.forward(output_layers)
+> 
+>     # 각각의 데이터를 저장할 빈 리스트
+>     class_ids = []
+>     confidences = []
+>     boxes = []
+> 
+>     for out in outs:
+>         for detection in out:
+>             scores = detection[5:]
+>             class_id = np.argmax(scores)
+>             confidence = scores[class_id]
+> 
+>             if confidence > 0.1:
+>                 # 탐지된 객체의 너비, 높이 및 중앙 좌표값 찾기
+>                 center_x = int(detection[0] * width)
+>                 center_y = int(detection[1] * height)
+>                 w = int(detection[2] * width)
+>                 h = int(detection[3] * height)
+> 
+>                 # 객체의 사각형 테두리 중 좌상단 좌표값 찾기
+>                 x = int(center_x - w / 2)
+>                 y = int(center_y - h / 2)
+> 
+>                 boxes.append([x, y, w, h])
+>                 confidences.append(float(confidence))
+>                 class_ids.append(class_id)
+> 
+>     # 후보 박스(x, y, width, height)와 confidence(상자가 물체일 확률) 출력
+>     print(f"boxes: {boxes}")
+>     print(f"confidences: {confidences}")
+> 
+>     # Non Maximum Suppression (겹쳐있는 박스 중 confidence 가 가장 높은 박스를 선택)
+>     indexes = cv2.dnn.NMSBoxes(boxes, confidences, score_threshold=score_threshold, nms_threshold=nms_threshold)
+> 
+>     # 후보 박스 중 선택된 박스의 인덱스 출력
+>     print(f"indexes: ", end='')
+>     for index in indexes:
+>         print(index, end=' ')
+>     print("\n\n============================== classes ==============================")
+> 
+>     for i in range(len(boxes)):
+>         if i in indexes:
+>             x, y, w, h = boxes[i]
+>             class_name = classes[class_ids[i]]
+>             label = f"{class_name} {confidences[i]:.2f}"
+>             color = colors[class_ids[i]]
+> 
+>             # 사각형 테두리 그리기 및 텍스트 쓰기
+>             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+>             cv2.rectangle(frame, (x - 1, y), (x + len(class_name) * 13 + 65, y - 25), color, -1)
+>             cv2.putText(frame, label, (x, y - 8), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 0, 0), 2)
+> 
+>             # 탐지된 객체의 정보 출력
+>             print(f"[{class_name}({i})] conf: {confidences[i]} / x: {x} / y: {y} / width: {w} / height: {h}")
+>             globals()['ingre_list'].append(class_name)
+> 
+>     return frame
+> ```
