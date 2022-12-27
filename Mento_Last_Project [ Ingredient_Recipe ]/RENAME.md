@@ -23,7 +23,7 @@
 
 ## 💻 프로젝트 진행 (이미지 인식 and 데이터 분석)
 
-I. 이미지 인식  
+### I. 이미지 인식  
 > 1. 데이터 수집
 > https://kadx.co.kr/product/detail/0c5ec800-4fc2-11eb-8b6e-e776ccea3964
 > KADX 농식품 빅데이터 거래소에 있는 만개의 레시피 데이터를 활용
@@ -76,6 +76,10 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > YOLOv4 커스텀 학습을 통하여 진행하였지만 Colab에서 제공하는 GPU를 초과하여  
 > YOLOv4 -> YOLOv4_tiny를 사용  
 ![Untitled (2)](https://user-images.githubusercontent.com/87309905/209650438-9b8115da-2808-40b9-8bd3-41a145bd90ad.png)
+> YOLOv4_tiny 학습 결과
+> - 학습 결과 대부분의 재료를 잘 인식 하였습니다.
+> - 이 모델을 재료 이미지 인식 모델로 사용합니다.
+
 
 
 
