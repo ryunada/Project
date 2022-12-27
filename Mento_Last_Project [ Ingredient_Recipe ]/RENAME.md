@@ -204,3 +204,11 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > > ```
 > > Parameter를 튜닝한 결과 2%정도의 더 높은 예측 정확도를 보였습니다.
 > > 
+> > <table> 
+> >   <tr>
+> >     <td>
+> >       <img src="https://user-images.githubusercontent.com/87309905/209656040-9b1b55d3-1793-4b9b-9b30-da406b38a34f.png"> Parameter튜닝 전 기본값으로 학습 시킨 결과
+> >     </td>
+> >   </tr>
+> > </table>
+
