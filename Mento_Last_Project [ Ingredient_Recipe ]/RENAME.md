@@ -173,12 +173,34 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > > # # 모델 불러오기
 > > # with open(os.path.join(path, 'lgbm_t.pkl'), 'rb') as f:
 > > #     lgbm_t = pickle.load(f)
-
-I. 재료에 해당하는 이미지를 
-
-II. 데이터 분석  
-
-III. 이미지 인식 모델과 분석 모델을 이용하여 구현
-
-IV. 웹 사이트 구현
-
+> > 
+>  
+> > GridSearchCV를 통하여 최적의 Parameter를 찾아, 찾은 값으로 학습을 진행
+> > ```python
+> > # ligthgbm 최적의 parameter 찾기
+> > from sklearn.model_selection import GridSearchCV
+> > 
+> > lgbm = LGBMRegressor(random_state=1)
+> >
+> > params = {
+> >     'max_depth': [15, 18, 19, 21, 23],
+> >     'num_leaves': [50, 80, 100, 120, 150],
+> >     'min_data_in_leaf': [100],
+> >     'learning_rate': [0.01, 0.05, 0.1, 0.15, 0.2],
+> >     'colsample_bytree': [0.5, 0.7, 0.9, 1],
+> >     'subsample': [0.5, 0.7, 0.9, 1]
+> > }
+> > 
+> > grid_cv = GridSearchCV(lgbm, param_grid=params, cv=5, n_jobs=-1)
+> > grid_cv.fit(x_train, y_train, verbose=1, eval_metric=['rmse', 'mae'], eval_set=[(x_train, y_train), (x_test, y_test)], early_stopping_rounds=100)
+> > 
+> > print('최적의 파라미터:', grid_cv.best_params_)
+> > print('최고 예측 정확도: {0:.4f}'.format(grid_cv.best_score_))
+> > ```
+> > 
+> > ```python
+> >lgbm_t = LGBMRegressor(random_state=1, n_estimators=2000, max_depth=15, num_leaves=150, min_data_in_leaf=100, learning_rate=0.2,
+> >                        colsample_bytree=1, subsample=0.7)
+> > ```
+> > Parameter를 튜닝한 결과 2%정도의 더 높은 예측 정확도를 보였습니다.
+> > 
