@@ -80,6 +80,21 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > - 학습 결과 대부분의 재료를 잘 인식 하였습니다.
 > - 이 모델을 재료 이미지 인식 모델로 사용합니다.
 
+### II) 데이터 분석
+> I. 데이터 수집  
+>   
+> https://kadx.co.kr/product/detail/0c5ec800-4fc2-11eb-8b6e-e776ccea3964
+> KADX 농식품 빅데이터 거래소에 있는 만개의 레시피 데이터를 활용  
+>   
+> https://data.kma.go.kr/data/grnd/selectAsosRltmList.do?pgmNo=36  
+> 기상청에 있는 기온, 습도, 강수량, 운량 데이터 활용  
+> 
+> https://keywordsound.com/  
+> 키워드 사운드를 통하여 검색량 데이터 수집. 
+> > 과도하게 크롤링을 하여 서버를 마비 시켰습니다. 개인적으로 연락을 드려 사과를 드렸고 좋게 마무리 되었습니다.
+> > 크롤링은 항상 신중하고 조심히 해야 하는 것을 배웠습니다.
+> > 
+> ><img width="669" alt="스크린샷 2022-12-24 오후 8 51 31" src="https://user-images.githubusercontent.com/87309905/209650976-bf31381b-e111-48f2-9827-b1a28c8a6e39.png">
 
 
 
