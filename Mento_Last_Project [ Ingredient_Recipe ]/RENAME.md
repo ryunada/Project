@@ -207,8 +207,20 @@ print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
 > > <table> 
 > >   <tr>
 > >     <td>
-> >       <img src="https://user-images.githubusercontent.com/87309905/209656040-9b1b55d3-1793-4b9b-9b30-da406b38a34f.png"> Parameter튜닝 전 기본값으로 학습 시킨 결과
+> >       <img src="https://user-images.githubusercontent.com/87309905/209656040-9b1b55d3-1793-4b9b-9b30-da406b38a34f.png"> Parameter튜닝 전 기본값으로 학습
+> >     </td>
+> >     <td>
+> >       <img src="https://user-images.githubusercontent.com/87309905/209656432-e0b83533-399b-4187-b1f7-d3584fc5d6ad.png"> Parameter 튜닝 후 얻은 결과로 학습
 > >     </td>
 > >   </tr>
 > > </table>
-
+> > - 결과적으로 완벽히 일치하지는 않으나, Predicted값이 Actual값과 비슷한 흐름을 가진다는 것을 알 수 있습니다.
+> > - 즉, 검색량을 정확히 예측을 할 수 없으나 상대적인 변화를 에측할 수 있습니다.
+> > - 더 많은 feature와 데이터들이 있었더라면 더욱 정확한 예측값을 얻을 수 있지 않을까라는 아쉬움이 남았습니다.
+> >   
+> > 분석한 모델을 저장
+> > ```python
+> > import pickle
+> > with open(os.path.join(path, 'lgbm_t.pkl'), 'wb') as f:
+> >    pickle.dump(lgbm_t.fit(x_train, y_train), f)
+> > ```
